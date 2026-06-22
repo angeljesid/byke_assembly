@@ -71,7 +71,7 @@
                         
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold">Nombre del Repuesto</label>
-                            <input type="text" name="nombre" class="form-control" pattern="[A-Za-zÁ-ú\s]+" value="{{ repuesto.nombre|default:'' }}" placeholder="Ej. Tensor Shimano Deore" required>
+                            <input type="text" name="nombre" class="form-control" value="{{ repuesto.nombre|default:'' }}" placeholder="Ej. Tensor Shimano Deore" required>
                         </div>
                         
                         <div class="form-group mb-3">
@@ -83,7 +83,8 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label class="form-label fw-semibold">Precio ($)</label>
-                                    <input type="number" step="0.01" name="precio" class="form-control" value="{{ repuesto.precio|default:'' }}" placeholder="0.00" required>
+                                    <input type="number" step="0.01" name="precio" class="form-control" value="{{ repuesto.precio|default:'' }}" placeholder="0.00" required onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();"
+  oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
                                 </div>
                             </div>
                             <div class="col-6 mb-3">
