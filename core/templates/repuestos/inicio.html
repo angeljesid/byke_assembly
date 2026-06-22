@@ -32,7 +32,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link-custom">
+            <a href="{% url 'listar_repuestos' %}" class="nav-link-custom {% if seccion == 'repuestos' %}active{% endif %}">
                 <i class="bi bi-box-seam"></i> Productos
             </a>
         </li>

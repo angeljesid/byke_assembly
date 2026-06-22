@@ -3,7 +3,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nexora Plus - Clientes</title>
+    <title>Bike Assembly - Clientes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'css/diseño.css' %}">
@@ -12,57 +12,141 @@
 
 <nav id="sidebar">
     <div class="sidebar-brand">
-        <h4 class="mb-0">Nexora <span style="color: var(--nexora-gold);">Plus</span></h4>
+        <div class="d-flex justify-content-center">
+            <div style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                <i class="bi bi-bicycle text-dark fs-4"></i>
+            </div>
+        </div>
+        <h4 class="mb-0">Bike <span style="color: var(--nexora-gold);">Assembly</span></h4>
     </div>
+
     <ul class="sidebar-nav">
-        <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link-custom"><i class="bi bi-house-door"></i> Home</a></li>
-        <li class="nav-item"><a href="{% url 'listar_clientes' %}" class="nav-link-custom active"><i class="bi bi-people"></i> Clientes</a></li>
+        <li class="nav-item">
+            <a href="{% url 'dashboard' %}" class="nav-link-custom {% if seccion == 'home' %}active{% endif %}">
+                <i class="bi bi-house-door"></i> Home
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'listar_clientes' %}" class="nav-link-custom {% if seccion == 'clientes' %}active{% endif %}">
+                <i class="bi bi-people"></i> Clientes
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link-custom">
+                <i class="bi bi-box-seam"></i> Productos
+            </a>
+        </li>
     </ul>
+
     <div class="sidebar-footer">
-        <form action="{% url 'logout' %}" method="POST">{% csrf_token %}<button type="submit" class="logout-btn"><i class="bi bi-power"></i> Cerrar sesión</button></form>
+        <a href="#" class="nav-link-custom mb-2">
+            <i class="bi bi-gear"></i> Configuración
+        </a>
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">
+                <i class="bi bi-power"></i> Cerrar sesión
+            </button>
+        </form>
     </div>
 </nav>
 
 <div class="content-wrapper">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card card-custom p-4">
-                    <h5 class="fw-bold mb-3" style="color: var(--nexora-blue);">Registrar Cliente</h5>
-                    <form method="POST">
+        <div class="row g-4">
+            
+            <div class="col-xl-4 col-lg-5">
+                <div class="card card-custom p-4 {% if cliente_editar %}border border-warning{% endif %}">
+                    <h3 class="fw-bold mb-3" style="color: var(--nexora-blue); font-size: 1.4rem;">
+                        {% if cliente_editar %}
+                            <i class="bi bi-pencil-square text-warning me-2"></i>Editar Cliente
+                        {% else %}
+                            <i class="bi bi-person-plus me-2"></i>Registrar Cliente
+                        {% endif %}
+                    </h3>
+                    <hr class="text-muted opacity-25 mb-4">
+                    
+                    <form method="POST" action="{% if cliente_editar %}{% url 'editar_cliente' cliente_editar.id %}{% else %}{% url 'listar_clientes' %}{% endif %}">
                         {% csrf_token %}
-                        <div class="mb-3"><label class="form-label">Nombre</label><input type="text" name="nombre" class="form-control" required></div>
-                        <div class="mb-3"><label class="form-label">Email</label><input type="email" name="email" class="form-control" required></div>
-                        <div class="mb-3"><label class="form-label">Teléfono</label><input type="text" name="telefono" class="form-control"></div>
-                        <div class="mb-3"><label class="form-label">Dirección</label><input type="text" name="direccion" class="form-control"></div>
-                        <button type="submit" class="btn btn-primary w-100">Guardar Cliente</button>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold">Nombre Completo</label>
+                            <input type="text" name="nombre" class="form-control" value="{{ cliente_editar.nombre|default:'' }}" placeholder="Ej. Juan Pérez" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold">Correo Electrónico</label>
+                            <input type="email" name="email" class="form-control" value="{{ cliente_editar.email|default:'' }}" placeholder="juan@ejemplo.com" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold">Teléfono</label>
+                            <input type="text" name="telefono" class="form-control" value="{{ cliente_editar.telefono|default:'' }}" placeholder="3001234567">
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold">Dirección de residencia</label>
+                            <textarea name="direccion" class="form-control" rows="2" placeholder="Calle 123 # 45-67">{{ cliente_editar.direccion|default:'' }}</textarea>
+                        </div>
+                        
+                        {% if cliente_editar %}
+                            <button type="submit" class="btn btn-warning w-100 text-white fw-bold mt-2">
+                                <i class="bi bi-check-circle me-2"></i>Actualizar Cambios
+                            </button>
+                            <a href="{% url 'listar_clientes' %}" class="btn btn-light w-100 mt-2 text-muted small">Cancelar</a>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary btn-submit w-100 mt-2" style="background-color: var(--nexora-blue); border: none;">
+                                <i class="bi bi-disk me-2"></i>Guardar Cliente
+                            </button>
+                        {% endif %}
                     </form>
                 </div>
             </div>
-            
-            <div class="col-md-8">
+
+            <div class="col-xl-8 col-lg-7">
                 <div class="card card-custom p-4">
-                    <h5 class="fw-bold mb-3" style="color: var(--nexora-blue);">Listado de Clientes</h5>
-                    <div class="table-responsive">
-                        <table class="table custom-table">
+                    <h3 class="fw-bold mb-3" style="color: var(--nexora-blue); font-size: 1.4rem;">
+                        <i class="bi bi-person-lines-fill me-2"></i>Listado de Clientes
+                    </h3>
+                    <hr class="text-muted opacity-25 mb-4">
+                    
+                    <div class="table-responsive" style="border-radius: 14px;">
+                        <table class="table align-middle">
                             <thead>
-                                <tr>
+                                <tr class="text-secondary">
                                     <th>Nombre</th>
                                     <th>Email</th>
                                     <th>Teléfono</th>
                                     <th>Dirección</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for cliente in clientes %}
-                                <tr>
-                                    <td>{{ cliente.nombre }}</td>
-                                    <td>{{ cliente.email }}</td>
-                                    <td>{{ cliente.telefono|default:"-" }}</td>
-                                    <td>{{ cliente.direccion|default:"-" }}</td>
-                                </tr>
+                                    <tr>
+                                        <td class="fw-semibold text-dark">{{ cliente.nombre }}</td>
+                                        <td>{{ cliente.email }}</td>
+                                        <td>{{ cliente.telefono|default:"-" }}</td>
+                                        <td>{{ cliente.direccion|default:"-" }}</td>
+                                        <td class="text-center">
+                                            <a href="{% url 'editar_cliente' cliente.id %}" class="btn btn-sm btn-link text-warning me-2" title="Editar Cliente">
+                                                <i class="bi bi-pencil-square fs-5"></i>
+                                            </a>
+                                            
+                                            <form action="{% url 'eliminar_cliente' cliente.id %}" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar a este cliente?');">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-link text-danger p-0 border-0" title="Eliminar Cliente">
+                                                    <i class="bi bi-trash3 fs-5"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 {% empty %}
-                                <tr><td colspan="4" class="text-center text-muted">No hay clientes registrados.</td></tr>
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-4">
+                                            <i class="bi bi-people mb-2 d-block fs-3"></i>
+                                            No hay clientes registrados en el sistema.
+                                        </td>
+                                    </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -73,5 +157,6 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
