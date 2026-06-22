@@ -334,4 +334,79 @@ body {
     .card-custom { 
         margin-right: 0; 
     }
+
+    /* ==========================================
+   Módulo de Autenticación (Login)
+   ========================================== */
+.body-login-clean {
+    background: #f0f2f5 url('https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1200') no-repeat center center/cover;
+    min-height: 100vh;
+    display: block !important; /* Anula el flex del body general de la administración */
+    margin: 0;
+    padding: 0;
+}
+
+.login-overlay {
+    background: rgba(240, 242, 245, 0.4);
+    min-height: 100vh;
+    width: 100%;
+    display: table;
+}
+
+.login-cell {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 40px 0;
+}
+
+.login-container {
+    max-width: 900px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.login-sidebar {
+    background-color: var(--nexora-blue);
+    color: white;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.login-form-section {
+    padding: 60px 50px;
+}
+
+.btn-enter {
+    background-color: var(--nexora-blue);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-enter:hover {
+    background-color: #083144;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-back {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.btn-back:hover {
+    color: var(--nexora-blue);
+}
 }

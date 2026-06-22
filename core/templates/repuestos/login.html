@@ -1,29 +1,136 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nexora Plus - Iniciar Sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Assembly - Iniciar Sesión</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/diseño.css' %}">
     <style>
-        body { background: #0d4761; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 100%; max-width: 400px; }
+        body {
+            background: #f0f2f5 url('https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1200') no-repeat center center/cover;
+            min-height: 100vh;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+        .login-overlay {
+            background: rgba(240, 242, 245, 0.4);
+            min-height: 100vh;
+            width: 100%;
+            display: table;
+        }
+        .login-cell {
+            display: table-cell;
+            vertical-align: middle;
+            padding: 40px 0;
+        }
+        .login-container {
+            max-width: 900px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+        .login-sidebar {
+            background-color: var(--nexora-blue, #0d4761);
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .login-form-section {
+            padding: 60px 50px;
+        }
+        .btn-enter {
+            background-color: var(--nexora-blue, #0d4761);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-enter:hover {
+            background-color: #083144;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .btn-back {
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .btn-back:hover {
+            color: var(--nexora-blue, #0d4761);
+        }
     </style>
 </head>
 <body>
-    <div class="login-card text-center">
-        <h3 class="mb-4 fw-bold" style="color: #0d4761;">Nexora <span style="color: #DAA520;">Plus</span></h3>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="mb-3 text-start">
-                <label class="form-label">Usuario</label>
-                <input type="text" name="username" class="form-control" required>
+
+<div class="login-overlay">
+    <div class="login-cell">
+        <div class="container">
+            <div class="login-container">
+                <div class="row g-0">
+                    
+                    <div class="col-md-5 login-sidebar">
+                        <div class="mb-4" style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-bicycle text-white" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h1 class="fw-bold display-6 mb-2">Bike <span style="color: var(--nexora-gold, #ffc107);">Assembly</span></h1>
+                        <p class="text-white-50 small">Sistema administrativo</p>
+                    </div>
+                    
+                    <div class="col-md-7 login-form-section">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h2 class="fw-bold mb-1" style="color: #1a252f; font-size: 1.8rem;">Inicio de sesión</h2>
+                                <p class="text-muted small mb-0">Introduce tus credenciales</p>
+                            </div>
+                            <a href="{% url 'quienes_somos' %}" class="btn-back fw-semibold">
+                                <i class="bi bi-arrow-left me-1"></i> Volver al inicio
+                            </a>
+                        </div>
+
+                        <form method="POST" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            
+                            {% if form.errors %}
+                                <div class="alert alert-danger p-2 small mb-3" role="alert">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i> Usuario o contraseña incorrectos.
+                                </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                <label for="id_username" class="form-label small fw-semibold text-muted mb-1">Usuario</label>
+                                <input type="text" name="username" id="id_username" class="form-control p-2" placeholder="Ingresa tu usuario" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="id_password" class="form-label small fw-semibold text-muted mb-1">Contraseña</label>
+                                <input type="password" name="password" id="id_password" class="form-control p-2" placeholder="Ingresa tu contraseña" required>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-enter w-100">Entrar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
-            <div class="mb-4 text-start">
-                <label class="form-label">Contraseña</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn w-100 fw-bold text-white" style="background: #0d4761;">Ingresar</button>
-        </form>
+        </div>
     </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
