@@ -80,7 +80,7 @@
                         
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold">Teléfono</label>
-                            <input type="text" name="telefono" class="form-control" value="{{ cliente_editar.telefono|default:'' }}" placeholder="3001234567" pattern="[0-9\s]+" title="Solo se permiten números y espacios">
+                            <input type="tel" inputmode="numeric" name="telefono" class="form-control" value="{{ cliente_editar.telefono|default:'' }}" placeholder="3001234567" required pattern="[0-9\s]+" title="Solo se permiten números y espacios" oninput="this.value = this.value.replace(/[^0-9\s]/g, '')">
                         </div>
                         
                         <div class="form-group mb-3">
