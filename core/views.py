@@ -68,7 +68,6 @@ def dashboard(request):
 def listar_clientes(self, request):
     clientes = Cliente.objects.all()
     if request.method == 'POST':
-        # Lógica rápida para agregar un cliente desde la misma pantalla o un modal
         nombre = request.POST.get('nombre')
         email = request.POST.get('email')
         telefono = request.POST.get('telefono')
@@ -82,4 +81,3 @@ def listar_clientes(self, request):
         'clientes': clientes,
         'seccion': 'clientes'
     })
-
