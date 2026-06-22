@@ -17,6 +17,30 @@
             text-center: center;
         }
     </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark style-header" style="background-color: var(--nexora-blue); padding: 15px 30px;">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-bicycle me-2"></i>Bike <span style="color: var(--nexora-gold);">Assembly</span>
+            </a>
+            <div>
+                <a href="{% url 'login' %}" class="btn btn-outline-light fw-bold px-4 rounded-pill">Iniciar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3">¿Quiénes Somos?</h1>
+            <p class="lead max-width-600 mx-auto mb-4">Potenciamos la gestión, inventario y ensamble de bicicletas con soluciones a la medida de tu taller o negocio.</p>
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-5 fw-bold text-white rounded-pill" style="background-color: var(--nexora-gold); border: none;">
+                Registrarse / Ingresar al Sistema
+            </a>
+        </div>
+    </header>
+
 
 
 </body>
