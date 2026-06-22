@@ -1,0 +1,337 @@
+/* ==========================================
+   Variables de Paleta y Configuración (Nexora Theme)
+   ========================================== */
+:root { 
+    --nexora-blue: #0d4761; 
+    --nexora-gold: #DAA520;
+    --nexora-gold-hover: #b8860b;
+    --sidebar-width: 240px;
+    --bg-light: #f0f2f5;
+    --text-dark: #333333;
+    --text-muted: #666666;
+    --success-color: #2e7d32;
+    --danger-color: #c62828;
+}
+
+/* Estilos Globales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body { 
+    display: flex; /* Permite que el Sidebar y el Content queden lado a lado */
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* ==========================================
+   Barra de Navegación Lateral (Sidebar)
+   ========================================== */
+#sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    height: calc(100vh - 40px);
+    background: var(--nexora-blue);
+    margin: 20px;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    padding: 20px 0;
+    box-shadow: 0 10px 30px rgba(13, 71, 97, 0.2);
+    position: sticky;
+    top: 20px;
+    z-index: 1000;
+}
+
+.sidebar-brand { 
+    padding: 20px; 
+    text-align: center; 
+    margin-bottom: 20px; 
+}
+
+.sidebar-brand h4 { 
+    font-size: 1.25rem; 
+    font-weight: 700; 
+    letter-spacing: 1px; 
+    color: white;
+}
+
+.sidebar-nav { 
+    list-style: none; 
+    padding: 0 15px; 
+    margin: 0;
+    flex-grow: 1; 
+}
+
+.nav-item { 
+    margin-bottom: 8px; 
+    list-style: none;
+}
+
+/* Enlaces del Menú Lateral */
+.nav-link-custom {
+    display: flex; 
+    align-items: center; 
+    padding: 12px 18px;
+    color: rgba(255, 255, 255, 0.7); 
+    text-decoration: none;
+    border-radius: 14px; 
+    font-size: 0.9rem; 
+    font-weight: 500; 
+    transition: all 0.3s ease;
+}
+
+/* Estado Activo y Hover de la Opción Seleccionada */
+.nav-link-custom.active { 
+    background: rgba(255, 255, 255, 0.15) !important; 
+    color: white !important; 
+    border-left: 4px solid var(--nexora-gold);
+}
+
+.nav-link-custom:hover { 
+    background: rgba(255, 255, 255, 0.1); 
+    color: white; 
+    transform: translateX(3px);
+}
+
+.nav-link-custom i { 
+    font-size: 1.2rem; 
+    margin-right: 15px; 
+}
+
+/* Footer del Sidebar (Ajustes de Cierre de Sesión) */
+.sidebar-footer { 
+    padding: 0 15px; 
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    padding-top: 15px; 
+}
+
+.sidebar-footer form {
+    margin: 0;
+}
+
+.logout-btn {
+    width: 100%; 
+    background: transparent; 
+    border: none; 
+    color: rgba(255, 255, 255, 0.6);
+    display: flex; 
+    align-items: center; 
+    padding: 12px 18px; 
+    gap: 12px; 
+    font-size: 0.85rem;
+    cursor: pointer; 
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.logout-btn:hover { 
+    color: #ff6b6b; 
+    background: rgba(255, 107, 107, 0.1); 
+    border-radius: 14px; 
+}
+
+/* ==========================================
+   Contenedor de Contenido Principal
+   ========================================== */
+.content-wrapper { 
+    flex-grow: 1; 
+    padding: 20px 30px 30px 10px; 
+    width: 100%; 
+    overflow-x: hidden;
+}
+
+/* Tarjeta de Bienvenida o Contenedores */
+.card-custom { 
+    background: rgba(255, 255, 255, 0.95) !important; 
+    border-radius: 24px !important; 
+    border: none !important; 
+    box-shadow: 0 15px 35px rgba(13, 71, 97, 0.08) !important; 
+    backdrop-filter: blur(8px);
+    margin-right: 20px;
+}
+
+/* ==========================================
+   Tablas Estilizadas (Compatibilidad con tus vistas anteriores)
+   ========================================== */
+.table-title {
+    margin-bottom: 20px;
+    color: var(--nexora-blue);
+    font-weight: 700;
+}
+
+.btn-add {
+    display: inline-block;
+    background-color: var(--nexora-gold);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(218, 165, 32, 0.2);
+}
+
+.btn-add:hover {
+    background-color: var(--nexora-gold-hover);
+    transform: translateY(-1px);
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.styled-table th {
+    background-color: var(--nexora-blue);
+    color: white;
+    padding: 14px 18px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 3px solid var(--nexora-gold);
+}
+
+.styled-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #eef2f5;
+    color: var(--text-dark);
+}
+
+.styled-table tbody tr:hover {
+    background-color: rgba(13, 71, 97, 0.02);
+}
+
+.btn-edit {
+    color: var(--nexora-blue);
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+.btn-edit:hover {
+    color: var(--nexora-gold);
+}
+
+.btn-delete {
+    background-color: transparent;
+    color: var(--danger-color);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+    transition: opacity 0.2s;
+}
+.btn-delete:hover {
+    opacity: 0.7;
+}
+
+/* ==========================================
+   Formularios Estilizados (Mantenimiento de Clientes/Repuestos)
+   ========================================== */
+.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.form-container h1 {
+    margin-bottom: 25px;
+    font-size: 26px;
+    color: var(--nexora-blue);
+    border-bottom: 3px solid var(--nexora-gold);
+    padding-bottom: 10px;
+    font-weight: 700;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--nexora-blue);
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: #fafbfc;
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--nexora-gold);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.15);
+}
+
+.btn-submit {
+    background-color: var(--nexora-blue);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #082d3e;
+}
+
+.btn-link-cancel {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+}
+.btn-link-cancel:hover {
+    color: var(--text-dark);
+    text-decoration: underline;
+}
+
+/* ==========================================
+   Diseño Responsivo (Mobile)
+   ========================================== */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    #sidebar { 
+        display: none; 
+    }
+    .content-wrapper { 
+        padding: 15px; 
+    }
+    .card-custom { 
+        margin-right: 0; 
+    }
+}
