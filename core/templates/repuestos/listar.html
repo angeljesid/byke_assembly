@@ -71,12 +71,12 @@
                         
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold">Nombre del Repuesto</label>
-                            <input type="text" name="nombre" class="form-control" value="{{ repuesto.nombre|default:'' }}" placeholder="Ej. Tensor Shimano Deore" required>
+                            <input type="text" name="nombre" class="form-control" pattern="[A-Za-zÁ-ú\s]+" value="{{ repuesto.nombre|default:'' }}" placeholder="Ej. Tensor Shimano Deore" required>
                         </div>
                         
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold">Categoría</label>
-                            <input type="text" name="categoria" class="form-control" value="{{ repuesto.categoria|default:'' }}" placeholder="Ej. Transmisión, Frenos" required>
+                            <input type="text" name="categoria" class="form-control" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')" value="{{ repuesto.categoria|default:'' }}" pattern="[^0-9]+" placeholder="Ej. Transmisión, Frenos" required>
                         </div>
                         
                         <div class="row">

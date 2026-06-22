@@ -27,7 +27,7 @@
                 
                 <div class="form-group">
                     <label>Nombre:</label>
-                    <input type="text" name="nombre" value="{{ repuesto.nombre|default:'' }}" required>
+                    <input type="text" name="nombre" pattern="[A-Za-zÁ-ú\s]+" value="{{ repuesto.nombre|default:'' }}" required>
                 </div>
 
                 <div class="form-group">
