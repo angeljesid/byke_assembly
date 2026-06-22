@@ -81,3 +81,6 @@ def listar_clientes(self, request):
         'clientes': clientes,
         'seccion': 'clientes'
     })
+def quienes_somos(request):
+    return render(request, 'repuestos/quienes_somos.html')
+
