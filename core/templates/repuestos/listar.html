@@ -54,7 +54,7 @@
 <div class="content-wrapper">
     <div class="container-fluid">
         <div class="row g-4">
-            
+
             <div class="col-xl-4 col-lg-5">
                 <div class="card card-custom p-4 {% if repuesto %}border border-warning{% endif %}">
                     <h3 class="fw-bold mb-3" style="color: var(--nexora-blue); font-size: 1.4rem;">
@@ -65,33 +65,33 @@
                         {% endif %}
                     </h3>
                     <hr class="text-muted opacity-25 mb-4">
-                    
+
                     <form method="POST" action="{% if repuesto %}{% url 'editar_repuesto' repuesto.id %}{% else %}{% url 'listar_repuestos' %}{% endif %}">
                         {% csrf_token %}
-                        
+
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold">Nombre del Repuesto</label>
                             <input type="text" name="nombre" class="form-control" value="{{ repuesto.nombre|default:'' }}" placeholder="Ej. Tensor Shimano Deore" required>
                         </div>
-                        
+
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold">Categoría</label>
                             <input type="text" name= "categoria" class="form-control" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')" value="{{ repuesto.categoria|default:'' }}" pattern="[^0-9]+" placeholder="Ej. Transmisión, Frenos" required>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label class="form-label fw-semibold">Precio ($)</label>
-                                    <input 
-  type="number" 
-  step="0.01" 
-  min="10000" 
-  name="precio" 
-  class="form-control" 
-  value="{{ repuesto.precio|default:'' }}" 
-  placeholder="10000.00" 
-  required 
+                                    <input
+  type="number"
+  step="0.01"
+  min="10000"
+  name="precio"
+  class="form-control"
+  value="{{ repuesto.precio|default:'' }}"
+  placeholder="10000.00"
+  required
   onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();"
 >
                                 </div>
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold">Compatibilidad</label>
                             <select name="compatibilidad" class="form-select">
@@ -112,12 +112,12 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        
+
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold">Descripción Técnica</label>
                             <textarea name="descripcion" class="form-control" rows="3" placeholder="Detalles de compatibilidad adicional u observaciones...">{{ repuesto.descripcion|default:'' }}</textarea>
                         </div>
-                        
+
                         {% if repuesto %}
                             <button type="submit" class="btn btn-warning w-100 text-white fw-bold mt-2">
                                 <i class="bi bi-check-circle me-2"></i>Actualizar Repuesto
@@ -138,7 +138,50 @@
                         <i class="bi bi-box-seam me-2"></i>Catálogo de Repuestos
                     </h3>
                     <hr class="text-muted opacity-25 mb-4">
-                    
+
+                    <!-- 🔎 Reportes / Consultas: búsqueda, filtrado y ordenamiento -->
+                    <form method="GET" action="{% url 'listar_repuestos' %}" class="row g-2 mb-4 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label small fw-semibold mb-1">Buscar</label>
+                            <input type="text" name="busqueda" class="form-control form-control-sm"
+                                   placeholder="Nombre o descripción..." value="{{ busqueda|default:'' }}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small fw-semibold mb-1">Categoría</label>
+                            <input type="text" name="categoria_filtro" class="form-control form-control-sm"
+                                   placeholder="Ej. Frenos" value="{{ categoria_filtro|default:'' }}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small fw-semibold mb-1">Compatibilidad</label>
+                            <select name="compatibilidad_filtro" class="form-select form-select-sm">
+                                <option value="">Todas</option>
+                                {% for valor, texto in choices %}
+                                    <option value="{{ valor }}" {% if compatibilidad_filtro == valor %}selected{% endif %}>{{ texto }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-semibold mb-1">Ordenar por</label>
+                            <select name="orden" class="form-select form-select-sm">
+                                <option value="">Sin ordenar</option>
+                                <option value="nombre_asc" {% if orden == 'nombre_asc' %}selected{% endif %}>Nombre (A-Z)</option>
+                                <option value="nombre_desc" {% if orden == 'nombre_desc' %}selected{% endif %}>Nombre (Z-A)</option>
+                                <option value="precio_asc" {% if orden == 'precio_asc' %}selected{% endif %}>Precio (menor a mayor)</option>
+                                <option value="precio_desc" {% if orden == 'precio_desc' %}selected{% endif %}>Precio (mayor a menor)</option>
+                                <option value="stock_asc" {% if orden == 'stock_asc' %}selected{% endif %}>Stock (menor a mayor)</option>
+                                <option value="stock_desc" {% if orden == 'stock_desc' %}selected{% endif %}>Stock (mayor a menor)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex gap-2">
+                            <button type="submit" class="btn btn-sm w-100 text-white" style="background-color: var(--nexora-blue); border: none;">
+                                <i class="bi bi-search"></i> Filtrar
+                            </button>
+                            <a href="{% url 'listar_repuestos' %}" class="btn btn-sm btn-light" title="Limpiar filtros">
+                                <i class="bi bi-x-lg"></i>
+                            </a>
+                        </div>
+                    </form>
+
                     <div class="table-responsive" style="border-radius: 14px;">
                         <table class="table align-middle">
                             <thead>
@@ -169,7 +212,7 @@
                                             <a href="{% url 'editar_repuesto' r.id %}" class="btn btn-sm btn-link text-warning me-2" title="Editar Componente">
                                                 <i class="bi bi-pencil-square fs-5"></i>
                                             </a>
-                                            
+
                                             <form action="{% url 'eliminar_repuesto' r.id %}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este repuesto?');">
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn btn-sm btn-link text-danger p-0 border-0" title="Eliminar Componente">
@@ -182,7 +225,7 @@
                                     <tr>
                                         <td colspan="6" class="text-center text-muted py-4">
                                             <i class="bi bi-box mb-2 d-block fs-3"></i>
-                                            No hay repuestos registrados en el catálogo.
+                                            No hay repuestos que coincidan con los filtros aplicados.
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -191,7 +234,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>
