@@ -1,0 +1,25 @@
+# Dependencias de Producción
+Django>=5.2,<6.0
+mysqlclient>=2.2
+python-decouple>=3.8
+gunicorn>=21.2
+whitenoise>=6.6
+
+# Dependencias de Desarrollo
+pytest>=7.4
+pytest-django>=4.5
+factory-boy>=3.3
+ruff>=0.1
+mypy>=1.5
+django-debug-toolbar>=4.2
+
+# Seguridad
+django-axes>=5.3
+
+# Testing
+coverage>=7.3
+pytest-cov>=4.1
+
+# Docs
+mkdocs>=1.5
+mkdocs-material>=9.2

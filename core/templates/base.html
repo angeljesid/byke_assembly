@@ -1,0 +1,154 @@
+{# ==========================================
+   TEMPLATE BASE - Bike Assembly
+   Layout principal con sidebar responsive
+   ========================================== #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bike Assembly - Sistema de gestión de repuestos para bicicletas">
+    <title>{% block title %}Bike Assembly{% endblock %}</title>
+    
+    <!-- Bootstrap 5.3 CSS (CDN con SRI para seguridad) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+          rel="stylesheet" 
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+          crossorigin="anonymous">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" 
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" 
+          crossorigin="anonymous">
+    
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="{% static 'css/diseño.css' %}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+    <!-- ==========================================
+         SKIP LINK - Accesibilidad (WCAG 2.1)
+         ========================================== -->
+    <a href="#main-content" class="skip-link visually-hidden-focusable">
+        Saltar al contenido principal
+    </a>
+
+    {% block sidebar %}
+    <!-- ==========================================
+         SIDEBAR - Navegación lateral responsive
+         ========================================== -->
+    <nav id="sidebar" class="sidebar" role="navigation" aria-label="Navegación principal">
+        <div class="sidebar-brand">
+            <div class="d-flex justify-content-center">
+                <div class="brand-icon" aria-hidden="true">
+                    <i class="bi bi-bicycle fs-4"></i>
+                </div>
+            </div>
+            <h4 class="mb-0">Bike <span class="text-warning">Assembly</span></h4>
+        </div>
+
+        <ul class="sidebar-nav" role="list">
+            <li class="nav-item">
+                <a href="{% url 'dashboard' %}" 
+                   class="nav-link-custom {% if seccion == 'home' %}active{% endif %}"
+                   aria-current="{% if seccion == 'home' %}page{% endif %}">
+                    <i class="bi bi-house-door" aria-hidden="true"></i>
+                    <span>Inicio</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'cliente_listar' %}" 
+                   class="nav-link-custom {% if seccion == 'clientes' %}active{% endif %}"
+                   aria-current="{% if seccion == 'clientes' %}page{% endif %}">
+                    <i class="bi bi-people" aria-hidden="true"></i>
+                    <span>Clientes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'repuesto_listar' %}" 
+                   class="nav-link-custom {% if seccion == 'repuestos' %}active{% endif %}"
+                   aria-current="{% if seccion == 'repuestos' %}page{% endif %}">
+                    <i class="bi bi-box-seam" aria-hidden="true"></i>
+                    <span>Repuestos</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-link-custom mb-2" aria-label="Configuración">
+                <i class="bi bi-gear" aria-hidden="true"></i>
+                <span>Configuración</span>
+            </a>
+            <form action="{% url 'logout' %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn w-100" aria-label="Cerrar sesión">
+                    <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+                    <span>Cerrar sesión</span>
+                </button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Overlay para móvil (se muestra cuando sidebar está abierto) -->
+    <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+    {% endblock %}
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL
+         ========================================== -->
+    <main id="main-content" class="content-wrapper" role="main">
+        <div class="container-fluid">
+            
+            <!-- Mensajes Django (toast notifications) -->
+            {% if messages %}
+                <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+                    {% for message in messages %}
+                        <div class="toast align-items-center text-white bg-{{ message.tags }} border-0" 
+                             role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                            <div class="d-flex">
+                                <div class="toast-body">
+                                    {{ message }}
+                                </div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" 
+                                        data-bs-dismiss="toast" aria-label="Cerrar"></button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+            
+        </div>
+    </main>
+
+    <!-- ==========================================
+         JAVASCRIPT
+         ========================================== -->
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    
+    <!-- JS Personalizado -->
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    {% block extra_js %}
+    <script>
+        // Inicializar toasts automáticamente
+        document.addEventListener('DOMContentLoaded', function() {
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+            toastElList.forEach(function(toastEl) {
+                new bootstrap.Toast(toastEl).show();
+            });
+        });
+    </script>
+    {% endblock %}
+    
+</body>
+</html>
